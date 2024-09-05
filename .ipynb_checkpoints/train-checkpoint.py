@@ -17,21 +17,36 @@ print('device_name: ',               torch.cuda.get_device_name(0))
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # configs
+
+# -> for all param
+## model
+mode = "all"
+## training
+n_epoch = 301
+lr = 0.0005
 ## paths
 base  = './CNN_all_params'
 model_name = "CNN_all"
-model_param_file = 'model_param.pkl'
+model_param_file = '/CNN_all_epoch-110_model_params.pkl'
+
+# -> for cosmo param
 ## model
-mode = "all"
+mode = "cosmo"
+## training
+n_epoch = 301
+lr = 0.002
+## paths
+base  = './CNN_cosmo_params'
+model_name = "CNN_cosmo"
+model_param_file = 'xxx'
+
 ## dataset
 rng_seed = 114514
 batch_size = 32
 training_ratio = 0.7
 valid_ratio = 0.2
 test_ratio = 0.1
-## training
-n_epoch = 301
-lr = 0.002
+
 
 def is_save_epoch(epoch):
     return epoch % 10 == 0
@@ -53,8 +68,8 @@ if __name__ == "__main__":
     
     if os.path.exists(base+model_param_file):
         print('\t load the existed net_params to net')
-        print('\t netparam_file: \n\t\t', os.path.join(base, model_param_file))
-        net.load_state_dict(torch.load(os.path.join(base, model_param_file)))
+        print('\t netparam_file: \n\t\t', base+model_param_file)
+        net.load_state_dict(torch.load(base+model_param_file))
     else:
         print('\t No net_params exists, use the initial net')
     
