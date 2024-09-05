@@ -18,11 +18,11 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # configs
 ## paths
-base  = './'
-model_name = "CNN_cosmo"
+base  = './CNN_all_params'
+model_name = "CNN_all"
 model_param_file = 'model_param.pkl'
 ## model
-mode = "cosmo"
+mode = "all"
 ## dataset
 rng_seed = 114514
 batch_size = 32
@@ -30,7 +30,7 @@ training_ratio = 0.7
 valid_ratio = 0.2
 test_ratio = 0.1
 ## training
-n_epoch = 1000
+n_epoch = 301
 lr = 0.002
 
 def is_save_epoch(epoch):
@@ -75,11 +75,11 @@ if __name__ == "__main__":
     len_training = int(len(img_list) * training_ratio)
     len_valid = int(len(img_list) * training_ratio) + int(len(img_list) * valid_ratio)
     
-    train_set = CosDataset(img_list[:len_training], lab_list[:len_training], tfm=train_tfm)
+    train_set = CosDataset(img_list[:len_training], lab_list[:len_training], tfm=train_tfm, mode=mode)
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, pin_memory=True)
-    valid_set = CosDataset(img_list[len_training:len_valid], lab_list[len_training:len_valid], tfm=test_tfm)
+    valid_set = CosDataset(img_list[len_training:len_valid], lab_list[len_training:len_valid], tfm=test_tfm, mode=mode)
     valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=True, pin_memory=True)
-    test_set  = CosDataset(img_list[len_valid:], lab_list[len_valid:], tfm=test_tfm)
+    test_set  = CosDataset(img_list[len_valid:], lab_list[len_valid:], tfm=test_tfm, mode=mode)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=True, pin_memory=True)
     
     

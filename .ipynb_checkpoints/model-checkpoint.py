@@ -18,11 +18,12 @@ class CNN_cosmo(nn.Module):
         
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
         
-        self.fc1 = nn.Linear(64 * 8 * 8, 1024)  # Assuming input images are 256x256; two dataset
         if mode=="cosmo":
+            self.fc1 = nn.Linear(64 * 8 * 8, 1024)
             self.fc2 = nn.Linear(1024, 2)
         elif mode=="all":
-            self.fc2 == nn.Linear(1024, 6)
+            self.fc1 = nn.Linear(64 * 8 * 8, 4096)
+            self.fc2 = nn.Linear(4096, 6)
         else:
             raise ValueError
         
